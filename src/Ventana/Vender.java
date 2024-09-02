@@ -272,6 +272,7 @@ public class Vender extends JFrame {
 			
 			void mostrarBoletadeVenta(double ipagar) {
 			textArea.setText("");
+			
 			imprimir("----------------    BOLETA DE VENTA  ----------------"+"\n");
 			
 			imprimir("Bebida \t \t:"+cboBebida.getSelectedItem());
@@ -334,9 +335,10 @@ public class Vender extends JFrame {
 			Venta pedido=new Venta();
 			
 				pedido.setBebida((String)cboBebida.getSelectedItem());
-				pedido.setPrecio(Double.parseDouble(textPrecio.getText()));
+				pedido.precio=Double.parseDouble(textPrecio.getText());
 				pedido.setNumero(Integer.parseInt(textCantidad.getText()));
 				Vprincipal.ventas.add(pedido);
+				System.out.println(pedido);
 		}
 		});
 		

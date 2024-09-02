@@ -139,8 +139,8 @@ public class listarBebida extends JFrame {
 						
 			}
 			void listarBebidas() {
-				for (int i=0; i< modificarBebida.bebidas.size(); i++) {
-					Bebida listadeBebidas=modificarBebida.bebidas.get(i);
+				for (int i=0; i< ModificarBebidaFrame.bebidas.size(); i++) {
+					Bebida listadeBebidas=ModificarBebidaFrame.bebidas.get(i);
 					mostrarLista(listadeBebidas);
 		
 				}

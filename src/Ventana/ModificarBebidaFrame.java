@@ -22,12 +22,13 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import java.awt.Cursor;
 
-public class modificarBebida extends JFrame {
+public class ModificarBebidaFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public static ArrayList<Bebida> bebidas=new ArrayList<>();
-	 
+	public JComboBox cboBebidas;
+	ModificarBebidaFrame yo;
 
 	/**
 	 * Launch the application.
@@ -36,7 +37,7 @@ public class modificarBebida extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					modificarBebida frame = new modificarBebida();
+					ModificarBebidaFrame frame = new ModificarBebidaFrame();
 					frame.setVisible(true);
 					}
 				catch (Exception e) {
@@ -49,9 +50,17 @@ public class modificarBebida extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public modificarBebida() {
+	 void actualizarCombo() {
+		 String [] arreglodeNombre=new String[bebidas.size()];
+		 for (int i = 0; i < arreglodeNombre.length; i++) {
+			 arreglodeNombre[i]=bebidas.get(i).nombre;
+		}
+		 cboBebidas.setModel(new DefaultComboBoxModel(arreglodeNombre));
+	 }
+	public ModificarBebidaFrame() {
+		this.yo = this;
 		setResizable(false);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(modificarBebida.class.getResource("/Imagenes/logo.page.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ModificarBebidaFrame.class.getResource("/Imagenes/logo.page.png")));
 		setTitle("Modificar Bebida ");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 788, 500);
@@ -68,6 +77,7 @@ public class modificarBebida extends JFrame {
 		bebidas.add(new Bebida("Americano", "Grande", 9.0, 2, "Ninguno", "Ninguno"));
 	    bebidas.add(new Bebida("Capuccino", "Grande", 14.0, 2, "Evaporada", "Leche"));
 	    bebidas.add(new Bebida("Latte Frio", "Grande", 14.5, 1, "Semidescremada", "Avena"));
+	    bebidas.add(new Bebida("Mocca", "Grande", 12.5, 1, "Semidescremada", "Moca"));
 
 		
 		JPanel panel = new JPanel();
@@ -139,7 +149,7 @@ public class modificarBebida extends JFrame {
 		txtCrema.setBounds(120, 260, 150, 22);
 		panel.add(txtCrema);
 		
-		JComboBox cboBebidas = new JComboBox();
+		cboBebidas = new JComboBox();
 		cboBebidas.setFont(new Font("Monospaced", Font.PLAIN, 10));
 		cboBebidas.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cboBebidas.addActionListener(new ActionListener() {
@@ -199,7 +209,15 @@ public class modificarBebida extends JFrame {
 //				 }
 			 }
 		});
-		cboBebidas.setModel(new DefaultComboBoxModel(new String[] {"Matcha Frappuccino", "Caramel Frappuccino", "Americano ", "Capuccino", "Latte Frio"}));
+				
+		String []arregloDeStringsDeBebidas=new String[bebidas.size()];
+		for(int i=0; i<bebidas.size(); i++) {
+			arregloDeStringsDeBebidas[i]=bebidas.get(i).nombre;
+			
+		}
+		
+
+		cboBebidas.setModel(new DefaultComboBoxModel(arregloDeStringsDeBebidas));
 		cboBebidas.setBounds(120, 63, 150, 21);
 		panel.add(cboBebidas);
 		
@@ -231,9 +249,9 @@ public class modificarBebida extends JFrame {
 		btnGuardar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int tipo;
-				tipo=leerTipo();
-				modificarBebida(tipo);
+				int indice;
+				indice=leerIndex();
+				modificarBebida(indice);
 				JOptionPane.showMessageDialog(null, "Informacion guardada", "Modificacion de bebida",JOptionPane.INFORMATION_MESSAGE);
 //				String ntamano,nleche,ncrema;
 //				double nprecio; int nshot;
@@ -248,17 +266,18 @@ public class modificarBebida extends JFrame {
 //				txtLeche.setEditable(false);
 //				txtCrema.setEditable(false);
 			}
-			int leerTipo() {
+			int leerIndex() {
 				return cboBebidas.getSelectedIndex();
 				}
-			void modificarBebida(int tipo) {
-				Bebida bebidamodificada=bebidas.get(tipo);
+			void modificarBebida(int index) {
+				Bebida bebidamodificada=bebidas.get(index);
 				bebidamodificada.setPrecio(Double.parseDouble(txtPrecio.getText()));
 				bebidamodificada.setTamano(txtTamano.getText());
 				bebidamodificada.shots=Integer.parseInt(txtShots.getText());
 				bebidamodificada.setLeche(txtLeche.getText());
 				bebidamodificada.setCrema(txtCrema.getText());				
 		}
+
 
 //			double modificarNuevoPrecio() {
 //				return Double.parseDouble(txtPrecio.getText());
@@ -292,9 +311,34 @@ public class modificarBebida extends JFrame {
 		lblNewLabel_1.setForeground(new Color(169, 169, 169));
 		lblNewLabel_1.setBounds(20, 30, 284, 13);
 		panel.add(lblNewLabel_1);
+		
+		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AgregarBebidaFrame agregar=new AgregarBebidaFrame(bebidas,yo );
+				agregar.setVisible(true);
+			}
+		});
+		btnAgregar.setForeground(new Color(248, 248, 255));
+		btnAgregar.setFont(new Font("Arial", Font.BOLD, 12));
+		btnAgregar.setBackground(new Color(188, 143, 143));
+		btnAgregar.setBounds(369, 380, 100, 30);
+		contentPane.add(btnAgregar);
+		
+//		JButton btnActualizar = new JButton("Actualizar");
+//		btnActualizar.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				actualizarCombo();
+//				
+//			}
+//		});
+//		btnActualizar.setForeground(new Color(248, 248, 255));
+//		btnActualizar.setFont(new Font("Arial", Font.BOLD, 12));
+//		btnActualizar.setBackground(new Color(188, 143, 143));
+//		btnActualizar.setBounds(233, 380, 100, 30);
+//		contentPane.add(btnActualizar);
 	
 	
 		
 		}
-
 }

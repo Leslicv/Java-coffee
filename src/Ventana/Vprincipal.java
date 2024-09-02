@@ -104,7 +104,7 @@ public class Vprincipal extends JFrame {
 		MenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				modificarBebida modificar=new modificarBebida();
+				ModificarBebidaFrame modificar=new ModificarBebidaFrame();
 				modificar.setVisible(true);
 			}
 		});
